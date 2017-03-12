@@ -66,6 +66,6 @@ public class SocnetDomain implements WritableComparable<SocnetDomain> {
 
     @Override
     public String toString() {
-        return domain.toString() + "\t" + socnet.toString();
+        return socnet.toString() + "\t" + domain.toString();
     }
 }
