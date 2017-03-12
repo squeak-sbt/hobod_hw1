@@ -15,6 +15,7 @@ import ru.mipt.comparator.SocnetCountGroupComparator;
 import ru.mipt.mapper.UrlSortMapper;
 import ru.mipt.partitioner.SocnetCountPartitioner;
 import ru.mipt.reducer.UrlSortReducer;
+import ru.mipt.writable_comparable.DomainCount;
 import ru.mipt.writable_comparable.SocnetCount;
 
 /**
@@ -44,7 +45,7 @@ public class UrlSort extends Configured implements Tool {
         //job.setPartitionerClass(SocnetCountPartitioner.class);
 
         job.setMapOutputKeyClass(SocnetCount.class);
-        job.setMapOutputValueClass(Text.class);
+        job.setMapOutputValueClass(DomainCount.class);
 
         job.setNumReduceTasks(1);
 
