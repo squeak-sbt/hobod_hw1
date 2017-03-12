@@ -10,6 +10,6 @@ import ru.mipt.writable_comparable.SocnetCount;
 public class SocnetCountPartitioner extends Partitioner<SocnetCount, DomainCount> {
     @Override
     public int getPartition(SocnetCount socnetCount, DomainCount count, int i) {
-        return (socnetCount.getSocnet().hashCode() & Integer.MAX_VALUE) % i;
+        return (socnetCount.getSocnet().toString().hashCode() & Integer.MAX_VALUE) % i;
     }
 }
