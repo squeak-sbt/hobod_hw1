@@ -3,7 +3,6 @@ package ru.mipt.comparator;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 import ru.mipt.writable_comparable.SocnetDomain;
-import ru.mipt.writable_comparable.UrlWritable;
 
 /**
  * Created by dmitry on 12.03.17.
