@@ -64,4 +64,19 @@ public class SocnetCount implements WritableComparable<SocnetCount> {
         return socnet.toString() + "\t" + count.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SocnetCount that = (SocnetCount) o;
+
+        return socnet != null ? socnet.equals(that.socnet) : that.socnet == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return socnet != null ? socnet.hashCode() : 0;
+    }
 }
