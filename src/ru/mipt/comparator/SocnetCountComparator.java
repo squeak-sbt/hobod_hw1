@@ -16,7 +16,7 @@ public class SocnetCountComparator extends WritableComparator {
     @Override
     public int compare(WritableComparable a, WritableComparable b) {
         if (a instanceof SocnetCount && b instanceof SocnetCount) {
-            return ((SocnetCount)a).getCount().compareTo(((SocnetCount)b).getCount());
+            return -((SocnetCount)a).getCount().compareTo(((SocnetCount)b).getCount());
         }
         return super.compare(a, b);
     }
