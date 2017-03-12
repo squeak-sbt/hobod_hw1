@@ -36,7 +36,7 @@ public class UrlCountMapper extends Mapper<LongWritable, Text, SocnetDomain, Int
         }
         String[] domains = host.split("\\.");
         if (domains.length >= 2) {
-            host = domains[domains.length - 2] + domains[domains.length - 1];
+            host = domains[domains.length - 2] + "." + domains[domains.length - 1];
         }
         return host;
     }
