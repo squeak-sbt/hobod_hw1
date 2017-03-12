@@ -12,8 +12,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import ru.mipt.comparator.SocnetDomainComparator;
+import ru.mipt.comparator.UrlGroupComparator;
 import ru.mipt.mapper.UrlCountMapper;
 import ru.mipt.reducer.UrlCountReducer;
+import ru.mipt.writable_comparable.SocnetDomain;
 
 /**
  * Created by dmitry on 12.03.17.
@@ -36,7 +39,10 @@ public class UrlCount extends Configured implements Tool {
         job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
-        job.setMapOutputKeyClass(Text.class);
+        job.setSortComparatorClass(SocnetDomainComparator.class);
+        job.setGroupingComparatorClass(UrlGroupComparator.class);
+
+        job.setMapOutputKeyClass(SocnetDomain.class);
         job.setMapOutputValueClass(IntWritable.class);
 
         job.setNumReduceTasks(1);
