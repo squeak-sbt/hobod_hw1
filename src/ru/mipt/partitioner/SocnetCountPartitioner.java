@@ -1,6 +1,5 @@
 package ru.mipt.partitioner;
 
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Partitioner;
 import ru.mipt.writable_comparable.DomainCount;
 import ru.mipt.writable_comparable.SocnetCount;
