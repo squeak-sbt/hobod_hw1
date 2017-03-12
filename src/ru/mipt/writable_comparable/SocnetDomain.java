@@ -15,6 +15,10 @@ public class SocnetDomain implements WritableComparable<SocnetDomain> {
     private Text domain;
 
 
+    public SocnetDomain() {
+        set(new Text(), new Text());
+    }
+
     public SocnetDomain(Text socnet, Text domain) {
         this.socnet = socnet;
         this.domain = domain;
