@@ -42,7 +42,7 @@ public class UrlSort extends Configured implements Tool {
         //job.setSortComparatorClass(SocnetDomainComparator.class);
         job.setGroupingComparatorClass(SocnetCountGroupComparator.class);
 
-        //job.setPartitionerClass(SocnetCountPartitioner.class);
+        job.setPartitionerClass(SocnetCountPartitioner.class);
 
         job.setMapOutputKeyClass(SocnetCount.class);
         job.setMapOutputValueClass(DomainCount.class);
