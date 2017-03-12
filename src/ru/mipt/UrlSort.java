@@ -11,7 +11,9 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import ru.mipt.comparator.SocnetCountGroupComparator;
 import ru.mipt.mapper.UrlSortMapper;
+import ru.mipt.partitioner.SocnetCountPartitioner;
 import ru.mipt.reducer.UrlSortReducer;
 import ru.mipt.writable_comparable.SocnetCount;
 
@@ -37,7 +39,9 @@ public class UrlSort extends Configured implements Tool {
         job.setOutputFormatClass(TextOutputFormat.class);
 
         //job.setSortComparatorClass(SocnetDomainComparator.class);
-        //job.setGroupingComparatorClass(UrlGroupComparator.class);
+        job.setGroupingComparatorClass(SocnetCountGroupComparator.class);
+
+        job.setPartitionerClass(SocnetCountPartitioner.class);
 
         job.setMapOutputKeyClass(SocnetCount.class);
         job.setMapOutputValueClass(Text.class);

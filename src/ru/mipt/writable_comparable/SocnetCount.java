@@ -44,7 +44,7 @@ public class SocnetCount implements WritableComparable<SocnetCount> {
 
     @Override
     public int compareTo(SocnetCount o) {
-        return count.compareTo(o.count);
+        return -count.compareTo(o.count);
     }
 
     @Override

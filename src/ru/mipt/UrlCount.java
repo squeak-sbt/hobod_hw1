@@ -15,6 +15,7 @@ import org.apache.hadoop.util.ToolRunner;
 import ru.mipt.comparator.SocnetDomainComparator;
 import ru.mipt.comparator.UrlGroupComparator;
 import ru.mipt.mapper.UrlCountMapper;
+import ru.mipt.partitioner.SocnetDomainPartitioner;
 import ru.mipt.reducer.UrlCountReducer;
 import ru.mipt.writable_comparable.SocnetDomain;
 
@@ -41,6 +42,8 @@ public class UrlCount extends Configured implements Tool {
 
         job.setSortComparatorClass(SocnetDomainComparator.class);
         job.setGroupingComparatorClass(UrlGroupComparator.class);
+
+        job.setPartitionerClass(SocnetDomainPartitioner.class);
 
         job.setMapOutputKeyClass(SocnetDomain.class);
         job.setMapOutputValueClass(IntWritable.class);
