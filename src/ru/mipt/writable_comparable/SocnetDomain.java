@@ -38,6 +38,8 @@ public class SocnetDomain implements WritableComparable<SocnetDomain> {
         return socnet.compareTo(o.socnet);
     }
 
+
+
     public Text getSocnet() {
         return socnet;
     }
