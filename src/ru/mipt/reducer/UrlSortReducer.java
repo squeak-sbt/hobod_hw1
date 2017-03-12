@@ -13,9 +13,14 @@ import java.io.IOException;
 public class UrlSortReducer extends Reducer<SocnetCount, Text, Text, IntWritable> {
     @Override
     protected void reduce(SocnetCount key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        int count = 0;
         for (Text domain : values) {
+            if (count >= 10) {
+                break;
+            }
             String line = key.getSocnet().toString() + "\t" + domain.toString();
             context.write(new Text(line), key.getCount());
+            count++;
         }
     }
 }
