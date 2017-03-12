@@ -40,10 +40,10 @@ public class UrlSort extends Configured implements Tool {
         job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
-        job.setSortComparatorClass(SocnetCountComparator.class);
+        //job.setSortComparatorClass(SocnetCountComparator.class);
         job.setGroupingComparatorClass(SocnetCountGroupComparator.class);
 
-        job.setPartitionerClass(SocnetCountPartitioner.class);
+        //job.setPartitionerClass(SocnetCountPartitioner.class);
 
         job.setMapOutputKeyClass(SocnetCount.class);
         job.setMapOutputValueClass(DomainCount.class);
