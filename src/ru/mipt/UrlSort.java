@@ -21,14 +21,14 @@ import ru.mipt.writable_comparable.SocnetCount;
 public class UrlSort extends Configured implements Tool {
 
     public static void main(String[] args) throws Exception {
-        ToolRunner.run(new UrlCount(), args);
+        ToolRunner.run(new UrlSort(), args);
     }
 
     @Override
     public int run(String[] args) throws Exception {
         Configuration conf = this.getConf();
         Job job  = new Job(conf);
-        job.setJarByClass(UrlCount.class);
+        job.setJarByClass(UrlSort.class);
 
         job.setMapperClass(UrlSortMapper.class);
         job.setReducerClass(UrlSortReducer.class);
