@@ -71,12 +71,12 @@ public class SocnetCount implements WritableComparable<SocnetCount> {
 
         SocnetCount that = (SocnetCount) o;
 
-        return socnet != null ? socnet.equals(that.socnet) : that.socnet == null;
+        return socnet != null ? socnet.toString().equals(that.socnet.toString()) : that.socnet == null;
 
     }
 
     @Override
     public int hashCode() {
-        return socnet != null ? socnet.hashCode() : 0;
+        return socnet != null ? socnet.toString().hashCode() : 0;
     }
 }
