@@ -33,7 +33,12 @@ public class UrlCountMapper extends Mapper<LongWritable, Text, SocnetDomain, Int
                     List<VisitedDomain> visitedDomains = map.get(counts[0]);
                     visitedDomains.add(new VisitedDomain(domain, count));
                     if (visitedDomains.size() > 10) {
-                        Collections.sort(visitedDomains, (o1, o2) -> -Integer.compare(o1.getCount(), o2.getCount()));
+                        Collections.sort(visitedDomains, new Comparator<VisitedDomain>() {
+                            @Override
+                            public int compare(VisitedDomain o1, VisitedDomain o2) {
+                                return -Integer.compare(o1.getCount(), o2.getCount());
+                            }
+                        });
                         visitedDomains.remove(visitedDomains.size() - 1);
                     }
                 }
