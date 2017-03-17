@@ -23,6 +23,5 @@ public class UrlSortReducer extends Reducer<SocnetCount, DomainCount, Text, IntW
             context.write(new Text(line), domain.getCount());
             count++;
         }
-        context.write(new Text("DEEEE"), new IntWritable(15));
     }
 }
