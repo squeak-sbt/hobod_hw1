@@ -42,6 +42,11 @@ public class UrlCountMapper extends Mapper<LongWritable, Text, SocnetDomain, Int
                         visitedDomains.remove(visitedDomains.size() - 1);
                     }
                 }
+                else {
+                    ArrayList<VisitedDomain> visitedDomainsList = new ArrayList<>();
+                    map.put(counts[0], visitedDomainsList);
+                    visitedDomainsList.add(new VisitedDomain(domain, count));
+                }
             }
         }
     }
