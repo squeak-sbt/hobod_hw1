@@ -14,6 +14,14 @@ import java.util.*;
 public class UrlCountReducer extends Reducer<SocnetDomain, IntWritable, SocnetDomain, IntWritable> {
     private static volatile Map<String, List<VisitedDomain>> map = new HashMap<>(10);
     private static final String[] RESULT_ORDER = new String[]{"vk", "facebook", "odnoklassniki", "twitter"};
+    private static final Set<String> RESULT_SOCNETS = new HashSet<>();
+
+    static {
+        RESULT_SOCNETS.add("vk");
+        RESULT_SOCNETS.add("facebook");
+        RESULT_SOCNETS.add("odnoklassniki");
+        RESULT_SOCNETS.add("twitter");
+    }
 
     @Override
     public void reduce(SocnetDomain key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
@@ -50,6 +58,13 @@ public class UrlCountReducer extends Reducer<SocnetDomain, IntWritable, SocnetDo
         for (String key : RESULT_ORDER) {
             for (VisitedDomain visitedDomain : map.get(key)) {
                 context.write(new SocnetDomain(key, visitedDomain.getDomain()), new IntWritable(visitedDomain.getCount()));
+            }
+        }
+        for (String key : map.keySet()) {
+            if (!RESULT_SOCNETS.contains(key)) {
+                for (VisitedDomain visitedDomain : map.get(key)) {
+                    context.write(new SocnetDomain(key, visitedDomain.getDomain()), new IntWritable(visitedDomain.getCount()));
+                }
             }
         }
     }

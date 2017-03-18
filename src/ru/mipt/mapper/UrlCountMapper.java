@@ -29,10 +29,6 @@ public class UrlCountMapper extends Mapper<LongWritable, Text, SocnetDomain, Int
         }
     }
 
-    @Override
-    protected void cleanup(Context context) throws IOException, InterruptedException {
-
-    }
 
     private String getDomainName(String url) throws MalformedURLException {
         if(!url.startsWith("http") && !url.startsWith("https")){
@@ -45,7 +41,12 @@ public class UrlCountMapper extends Mapper<LongWritable, Text, SocnetDomain, Int
         }
         String[] domains = host.split("\\.");
         if (domains.length >= 2) {
-            host = domains[domains.length - 2] + "." + domains[domains.length - 1];
+            if (!domains[domains.length - 2].equals("com")) {
+                host = domains[domains.length - 2] + "." + domains[domains.length - 1];
+            }
+            else if (domains.length >= 3){
+                host = domains[domains.length - 3] + "." + domains[domains.length - 2] + "." + domains[domains.length - 1];
+            }
         }
         return host;
     }
