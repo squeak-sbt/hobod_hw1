@@ -16,8 +16,7 @@ import java.util.*;
  * Created by dmitry on 12.03.17.
  */
 public class UrlCountMapper extends Mapper<LongWritable, Text, SocnetDomain, IntWritable> {
-    private static volatile Map<String, List<VisitedDomain>> map = new HashMap<>(10);
-    private static final String[] RESULT_ORDER = new String[]{"vk", "facebook", "odnoklassniki", "twitter"};
+
 
     @Override
     public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
@@ -26,38 +25,13 @@ public class UrlCountMapper extends Mapper<LongWritable, Text, SocnetDomain, Int
         String[] socnets = fields[1].split(";");
         for (String socnet : socnets) {
             String[] counts = socnet.split(":");
-            //context.write(new SocnetDomain(counts[0], domain), new IntWritable(Integer.valueOf(counts[1])));
-            int count = Integer.valueOf(counts[1]);
-            synchronized (counts[0]) {
-                if (map.containsKey(counts[0])) {
-                    List<VisitedDomain> visitedDomains = map.get(counts[0]);
-                    visitedDomains.add(new VisitedDomain(domain, count));
-                    if (visitedDomains.size() > 10) {
-                        Collections.sort(visitedDomains, new Comparator<VisitedDomain>() {
-                            @Override
-                            public int compare(VisitedDomain o1, VisitedDomain o2) {
-                                return -Integer.compare(o1.getCount(), o2.getCount());
-                            }
-                        });
-                        visitedDomains.remove(visitedDomains.size() - 1);
-                    }
-                }
-                else {
-                    ArrayList<VisitedDomain> visitedDomainsList = new ArrayList<>();
-                    map.put(counts[0], visitedDomainsList);
-                    visitedDomainsList.add(new VisitedDomain(domain, count));
-                }
-            }
+            context.write(new SocnetDomain(counts[0], domain), new IntWritable(Integer.valueOf(counts[1])));
         }
     }
 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
-        for (String key : RESULT_ORDER) {
-            for (VisitedDomain visitedDomain : map.get(key)) {
-                context.write(new SocnetDomain(key, visitedDomain.getDomain()), new IntWritable(visitedDomain.getCount()));
-            }
-        }
+
     }
 
     private String getDomainName(String url) throws MalformedURLException {
