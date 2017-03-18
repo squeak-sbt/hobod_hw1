@@ -48,7 +48,7 @@ public class UrlCount extends Configured implements Tool {
         job.setMapOutputKeyClass(SocnetDomain.class);
         job.setMapOutputValueClass(IntWritable.class);
 
-        job.setNumReduceTasks(1);
+        job.setNumReduceTasks(0);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
