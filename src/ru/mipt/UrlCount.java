@@ -2,6 +2,8 @@ package ru.mipt;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -19,6 +21,10 @@ import ru.mipt.partitioner.SocnetDomainPartitioner;
 import ru.mipt.reducer.UrlCountReducer;
 import ru.mipt.writable_comparable.SocnetDomain;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * Created by dmitry on 12.03.17.
  */
@@ -33,6 +39,16 @@ public class UrlCount extends Configured implements Tool {
         Configuration conf = this.getConf();
         Job job  = new Job(conf);
         job.setJarByClass(UrlCount.class);
+
+        Path inputPath = new Path(args[0]);
+        Path outputPath = new Path(args[1]);
+
+        FileSystem fs = FileSystem.get(conf);
+
+        if (fs.exists(outputPath)) {
+            fs.delete(outputPath, true);
+        }
+
 
         job.setMapperClass(UrlCountMapper.class);
         job.setReducerClass(UrlCountReducer.class);
@@ -50,8 +66,27 @@ public class UrlCount extends Configured implements Tool {
 
         job.setNumReduceTasks(1);
 
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-        return job.waitForCompletion(true) ? 0 : -1;
+        FileInputFormat.addInputPath(job, inputPath);
+        FileOutputFormat.setOutputPath(job, outputPath);
+        job.waitForCompletion(true);
+
+        List<String> list = new ArrayList<>();
+
+        for (FileStatus status: fs.listStatus(outputPath)){
+            Scanner scanner = new Scanner(fs.open(status.getPath()));
+            while(scanner.hasNextLine()){
+                list.add(scanner.nextLine());
+                if (list.size()==10)
+                    break;
+            }
+            if (list.size()==10)
+                break;
+        }
+
+        for(int i=0;i<list.size();i++){
+            System.out.println(list.get(i));
+        }
+
+        return 0;
     }
 }
