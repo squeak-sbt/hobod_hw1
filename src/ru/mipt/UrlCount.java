@@ -37,11 +37,11 @@ public class UrlCount extends Configured implements Tool {
     @Override
     public int run(String[] args) throws Exception {
         Configuration conf = this.getConf();
+        FileSystem fs = FileSystem.get(conf);
 
         Path inputPath = new Path(args[0]);
         Path outputPath = new Path(args[1]);
 
-        FileSystem fs = FileSystem.get(conf);
 
         if (fs.exists(outputPath)) {
             fs.delete(outputPath, true);
@@ -77,10 +77,10 @@ public class UrlCount extends Configured implements Tool {
             Scanner scanner = new Scanner(fs.open(status.getPath()));
             while(scanner.hasNextLine()){
                 list.add(scanner.nextLine());
-                if (list.size()==10)
+                if (list.size() == 40)
                     break;
             }
-            if (list.size()==10)
+            if (list.size() == 40)
                 break;
         }
 
