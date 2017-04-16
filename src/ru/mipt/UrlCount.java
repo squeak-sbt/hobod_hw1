@@ -37,8 +37,6 @@ public class UrlCount extends Configured implements Tool {
     @Override
     public int run(String[] args) throws Exception {
         Configuration conf = this.getConf();
-        Job job  = new Job(conf);
-        job.setJarByClass(UrlCount.class);
 
         Path inputPath = new Path(args[0]);
         Path outputPath = new Path(args[1]);
@@ -49,6 +47,9 @@ public class UrlCount extends Configured implements Tool {
             fs.delete(outputPath, true);
         }
 
+
+        Job job  = new Job(conf);
+        job.setJarByClass(UrlCount.class);
 
         job.setMapperClass(UrlCountMapper.class);
         job.setReducerClass(UrlCountReducer.class);
